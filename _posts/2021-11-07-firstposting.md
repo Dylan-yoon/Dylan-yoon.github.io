@@ -26,7 +26,7 @@ Horizontal Stack View
 
 *Horizontal Stack View == 수평적 관계 subView끼리 좌우 위치,수평한 위치
 
-![스크린샷 2021-11-04 오전 1.12.24.png](/assets/1.12.24.png)
+![스크린샷 2021-11-04 오전 1.12.24.png](/assets/스크린샷 2021-11-04 오전 1.12.24.png)
 
 ![horizontal](/assets/1.12.05.png)
 
