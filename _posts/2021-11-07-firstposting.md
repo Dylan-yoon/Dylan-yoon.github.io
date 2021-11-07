@@ -1,3 +1,9 @@
+---
+layout: single
+title:  "The first post of notion!"
+---
+
+
 # Chap2_3
 
 project Calculator
