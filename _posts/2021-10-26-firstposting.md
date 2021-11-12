@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "with teddynote, creat new blog posting!"
 ---
 
