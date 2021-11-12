@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "The first post of notion!"
 ---
 
