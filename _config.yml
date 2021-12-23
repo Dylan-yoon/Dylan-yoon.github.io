@@ -16,7 +16,7 @@ minimal_mistakes_skin    : "neon" #"default" # "air", "aqua", "contrast", "dark"
 
 # Site Settings
 locale                   : "ko-KR"
-title                    : "Dylan's _code" # "Site Title"
+title                    : "Dylan's _ Pages" # "Site Title"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Dev_Dylan" # "your name"
@@ -282,6 +282,7 @@ defaults:
       path: ""
       type: posts
     values:
+      date_format: "%Y-%m-%d"
       layout: single
       author_profile: true
       read_time: true
