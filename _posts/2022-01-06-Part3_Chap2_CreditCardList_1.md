@@ -1,0 +1,145 @@
+---
+layout: single
+classes: wide
+title:  "Chap2_CreditCardList_1"
+---
+# Chap2_CreditCardList_1
+
+# 신용카드 추천 리스트
+
+## - 기본 UI 구성
+
+![main.png](/assets/images/2022-01-06-Part3_Chap2_CreditCardList_1/main.png)
+
+테이블 뷰를 통해 순위 대로 나열된 카드들을 선택하면 선택된 카드에 대한 상세정보들을 나타나게 한다.
+
+상세 정보들은 Json 을 이용해 선택된 셀들에 따라 다르게 나타나게 한다.
+
+## UI setting
+
+1. CreditCard.swift 파일생성 → Json 객체 생성 
+2. TableViewController         →  XIB파일 생성으로 신용카드 
+3. Create Json Object
+4. CardListCell생성 및 cell 구성
+5. CardListViewController(UITableViewController) 에 cell Register & TabelView Setting
+6. cocoa pod을 이용해 Kingfisher
+7. CardDetailViewController
+8. cocoa pod을 이용해 lottie-animation
+
+## XIB
+
+CocoaFile 생성 시 Subclass 에 UITableViewCell을 선택하면
+
+Also create XIB file를 선택할 수 있는데
+
+체크를 해주면 XIB 생성된다.
+
+![cocoaFile.png](/assets/images/2022-01-06-Part3_Chap2_CreditCardList_1/cocoaFile.png)
+
+아래와 같이 특정 셀을 만들 수 있고,
+
+![Xib.png](/assets/images/2022-01-06-Part3_Chap2_CreditCardList_1/Xib.png)
+
+이렇게 구성한 XIB을 TableViewCell에 연결해 Outlet을 연결해 사용 할 수 있다.
+
+## JSON
+
+- 읽어올때는 JSON decoding
+- 쓸때는 JSON incoding
+
+먼저 JSON 형식은 [ Key : Value ] 가 존재할 수 있으며 Key값이나 문자열은 “항상쌍따옴표를 사용해 표기한다!”
+
+Value값에 배열이 들어갈 수 있다.
+
+또한 중첩될 수 있다.
+
+![Json.png](/assets/images/2022-01-06-Part3_Chap2_CreditCardList_1/Json.png)
+
+CreditCard 라는 Struct 에 
+
+- cardImageURL 부터  promotionDetail까지 만들어준다
+- 추가로 isSelected는 선택되었는지 유무를 판단하기위해 Bool타입이다.
+
+여기에 중첩된 promotionDetail을 또다른 Struct를 이용해 객채화 하면 된다!
+
+## Kingfisher와 Lottie Animation
+
+kingfisher와 lottie 를 사용하기 위해서 cocoa pod 을 이용한다.
+
+프로젝트 위치에 터미널을 열어 pod init, 즉 초기화를 해준다
+
+Podfile이 생성되면
+
+```markdown
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'ch2_CreditCardList' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for ch2_CreditCardList
+  pod 'Kingfisher'
+  pod 'lottie-ios' 
+
+end
+```
+
+파일안의 Pods for [프로젝트이름] 밑에 
+
+  pod 'Kingfisher'
+  pod 'lottie-ios' 
+
+저장 후 터미널로 다시 돌아와 pod install 을 해주면 각각 사용하기 위한 파일들이 설치된다.
+
+각각
+
+import Kingfisher
+
+import Lottie
+
+임포트 해주어야 한다.
+
+## Kingfisher
+
+앱을 다운받은 모든기기에 이미지를 넣어 놓는 것이 아닌, URL을 통해 이미지를 전달받아 ImageView에 나타내기 위해 Kingfisher 라는 오픈소스를 사용한다.
+
+이 프로젝트에서는 TableView에 각각의 카드 이미지를 JSON객체로부터 전달받기 때문에,
+
+cellForRowAt 메서드에 cardImageView의 Outlet을
+
+kingfisher의 메서드로 전달한다.
+
+**.kr.setImage(with: imageURL)**
+
+```swift
+let imageURL = URL(string: creditCardList[indexPath.row].cardImageURL)
+cell.cardImageView.kf.setImage(with: imageURL)
+```
+
+## Lottie Animation
+
+오픈소스를 설치한 후
+
+ImageView의  
+
+Identity Inspector —>Custom Class 에서
+
+class를 AnimationView로 설정하면 Module 또한 Lottie 변경되는 것을 볼 수 있다.
+
+화면이 load될 때 Animation이 활성화 되야 하므로 
+
+ViewDidLoad에 전달 해준다.
+
+```swift
+override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let animationView = AnimationView(name: "money")
+        lottieView.contentMode = .scaleAspectFit
+        lottieView.addSubview(animationView)
+        animationView.frame = lottieView.bounds
+        animationView.loopMode = .loop
+        animationView.play()
+    }
+```
